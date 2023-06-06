@@ -1,0 +1,45 @@
+version: '3.9'
+services:
+    eksi-app:
+        build:
+            context: ./
+            dockerfile: ./Dockerfile
+        ports:
+            - "9080:8080"
+        container_name: eksi-app
+        volumes:
+            - ./:/var/www
+        networks:
+            eksi-backend:
+    eksi-web:
+        build:
+            context: ./
+            dockerfile: ./Dockerfile-nginx
+        ports:
+            - "90:80"
+        container_name: eksi-web
+        volumes:
+            - ./:/var/www
+            - ./:/etc/nginx/conf.d/
+        networks:
+            eksi-backend:
+    eksi-db:
+        image: mysql:latest
+        ports:
+            - "3306:3306"
+        environment:
+            MYSQL_DATABASE: eksisozluk
+            MYSQL_ROOT_PASSWORD: mypassword
+            MYSQL_USER: user
+            MYSQL_PASSWORD: mypassword
+        container_name: eksi-db
+        networks:
+            eksi-backend:
+networks:
+    eksi-backend:
+        driver: bridge
+
+
+
+
+
