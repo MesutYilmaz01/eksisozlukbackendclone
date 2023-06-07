@@ -29,6 +29,8 @@ class ChangeEmailRequest extends FormRequest
             'username' => [new UnwantedAttribute],
             'avatar' => new UnwantedAttribute,
             'biography' => new UnwantedAttribute,
+            'birthday' => new UnwantedAttribute,
+            'gender' => new UnwantedAttribute,
             'email' => 'required|unique:users,email|email|max:50',
             'password' => 'required|min:6|max:10',
         ];

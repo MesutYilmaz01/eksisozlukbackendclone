@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ChangeBiographyRequest;
 use App\Http\Requests\ChangeEmailRequest;
 use App\Http\Requests\ChangePasswordRequest;
+use App\Http\Requests\ChangePersonelInformationsRequest;
 use App\Http\Requests\RegisterRequest;
 use App\Http\Resources\User\UserResource;
 use App\Http\ServiceContracts\IUserService;
@@ -39,5 +41,35 @@ class UserController extends Controller
         }catch(Exception $e){
             return response()->json(['message' => $e->getMessage()], $e->getCode());
         }
+    }
+
+    public function changePersonalInformations(ChangePersonelInformationsRequest $request)
+    {
+        try{
+            $this->service->changePersonalInformations($request->only(['birthday', 'gender']));
+            return response()->json(['message' => 'Informations changed successfully'], 201);
+        }catch(Exception $e){
+            return response()->json(['message' => $e->getMessage()], $e->getCode());
+        }
+    }
+
+    public function changeBiography(ChangeBiographyRequest $request)
+    {
+        try{
+            $this->service->changeBiography($request->only(['biography']));
+            return response()->json(['message' => 'Biography changed successfully'], 201);
+        }catch(Exception $e){
+            return response()->json(['message' => $e->getMessage()], $e->getCode());
+        }
+    }
+
+    public function deleteAccount()
+    {
+
+    }
+
+    public function changeAvatar()
+    {
+
     }
 }

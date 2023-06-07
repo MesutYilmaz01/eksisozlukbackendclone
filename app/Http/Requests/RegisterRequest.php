@@ -28,6 +28,8 @@ class RegisterRequest extends FormRequest
             'user_type' => new UnwantedAttribute,
             'avatar' => [new UnwantedAttribute],
             'biography' => [new UnwantedAttribute],
+            'birthday' => new UnwantedAttribute,
+            'gender' => new UnwantedAttribute,
             'username' => 'required|unique:users,username|min:3|max:25',
             'email' => 'required|unique:users,email|email|max:50',
             'password' => 'required|min:6|max:10',

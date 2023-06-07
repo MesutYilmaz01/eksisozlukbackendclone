@@ -43,6 +43,18 @@ class UserService implements IUserService
             }
     }
 
+    public function changePersonalInformations(array $data) {
+        if(!$this->repository->updateById(auth()->user()->id, $data)) {
+            throw new Exception('An error occured while updating personal informations.', 400);
+        }
+    }
+
+    public function changeBiography(array $data) {
+        if(!$this->repository->updateById(auth()->user()->id, $data)) {
+            throw new Exception('An error occured while updating biography.', 400);
+        }
+    }
+
     /**
      * Checks if password is correct
      */

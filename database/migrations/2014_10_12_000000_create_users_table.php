@@ -23,6 +23,8 @@ return new class extends Migration
             $table->string('password');
             $table->string('avatar')->default('/images/user.png');
             $table->string('biography')->nullable();
+            $table->dateTime('birthday')->nullable();
+            $table->enum('gender', [1, 2, 3, 4])->default(4);
             $table->rememberToken();
             $table->timestamps();
             $table->softDeletes();

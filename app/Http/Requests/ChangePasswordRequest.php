@@ -30,6 +30,8 @@ class ChangePasswordRequest extends FormRequest
             'email' => new UnwantedAttribute,
             'avatar' => new UnwantedAttribute,
             'biography' => new UnwantedAttribute,
+            'birthday' => new UnwantedAttribute,
+            'gender' => new UnwantedAttribute,
             'old_password' => 'required|min:6|max:10',
             'new_password' => 'required|confirmed|min:6|max:10'
         ];
