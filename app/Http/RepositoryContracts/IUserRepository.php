@@ -8,5 +8,5 @@ interface IUserRepository
 {
     public function store(array $data): User;
 
-    public function update(array $data);
+    public function updateById(int $id, array $data);
 }

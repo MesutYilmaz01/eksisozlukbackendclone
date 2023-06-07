@@ -9,4 +9,6 @@ interface IUserService
     public function store(array $data): User;
 
     public function changePassword(array $data);
+
+    public function changeEmail(array $data);
 }

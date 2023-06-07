@@ -33,7 +33,7 @@ Route::group(['prefix' => 'users'], function () {
     Route::post('register', [UserController::class, 'register']);
     Route::middleware('auth:api')->group( function () {
         Route::post('change-password', [UserController::class, 'changePassword']);
-        Route::post('update', [UserController::class, 'update']);
+        Route::post('change-email', [UserController::class, 'changeEmail']);
         Route::post('delete', [UserController::class, 'delete']);
     });
 });

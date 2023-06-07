@@ -23,19 +23,34 @@ class UserService implements IUserService
 
     public function changePassword(array $data)
     {
-            if(!Hash::check($data['old_password'], auth()->user()->password)) {
-                throw new Exception('Old password is not correct', 400);
-            }
+            $this->checkPasswordIsCorrect($data['old_password']);
 
             $data['password'] = Hash::make($data['new_password']);
             unset($data['old_password'], $data['new_password']);
 
-            $isUpdated = $this->repository->update($data);
-
-            if(!$isUpdated) {
-                throw new Exception('An error occured.', 400);
+            if(!$this->repository->updateById(auth()->user()->id, $data)) {
+                throw new Exception('An error occured while updating password.', 400);
             }
-
-            return $isUpdated;
     }
+
+    public function changeEmail(array $data)
+    {
+            $this->checkPasswordIsCorrect($data['password']);
+            unset($data['password']);
+
+            if(!$this->repository->updateById(auth()->user()->id, $data)) {
+                throw new Exception('An error occured while updating email.', 400);
+            }
+    }
+
+    /**
+     * Checks if password is correct
+     */
+    private function checkPasswordIsCorrect($password)
+    {
+        if(!Hash::check($password, auth()->user()->password)) {
+            throw new Exception('Old password is not correct', 400);
+        }
+    }
+
 }

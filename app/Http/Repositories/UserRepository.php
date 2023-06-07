@@ -12,8 +12,8 @@ class UserRepository implements IUserRepository
         return User::create($data);
     }
 
-    public function update(array $data)
+    public function updateById(int $id, array $data)
     {
-        return User::query()->update($data);
+        return User::query()->where(['id' => $id])->update($data);
     }
 }

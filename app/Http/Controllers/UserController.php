@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ChangeEmailRequest;
 use App\Http\Requests\ChangePasswordRequest;
 use App\Http\Requests\RegisterRequest;
 use App\Http\Resources\User\UserResource;
 use App\Http\ServiceContracts\IUserService;
 use Exception;
-use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
@@ -31,4 +31,13 @@ class UserController extends Controller
         }
     }
 
+    public function changeEmail(ChangeEmailRequest $request)
+    {
+        try{
+            $this->service->changeEmail($request->only(['email', 'password']));
+            return response()->json(['message' => 'Email changed successfully'], 201);
+        }catch(Exception $e){
+            return response()->json(['message' => $e->getMessage()], $e->getCode());
+        }
+    }
 }

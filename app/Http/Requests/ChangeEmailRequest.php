@@ -5,7 +5,7 @@ namespace App\Http\Requests;
 use App\Rules\UnwantedAttribute;
 use Illuminate\Foundation\Http\FormRequest;
 
-class RegisterRequest extends FormRequest
+class ChangeEmailRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -26,21 +26,17 @@ class RegisterRequest extends FormRequest
     {
         return [
             'user_type' => new UnwantedAttribute,
-            'avatar' => [new UnwantedAttribute],
-            'biography' => [new UnwantedAttribute],
-            'username' => 'required|unique:users,username|min:3|max:25',
+            'username' => [new UnwantedAttribute],
+            'avatar' => new UnwantedAttribute,
+            'biography' => new UnwantedAttribute,
             'email' => 'required|unique:users,email|email|max:50',
             'password' => 'required|min:6|max:10',
         ];
     }
-
+    
     public function messages()
     {
         return [
-            'username.required' => 'Username is required.',
-            'username.unique:users,username' => 'This username has already taken.',
-            'username.min' => 'Username must not be less than 3 character.',
-            'username.max' => 'Username must not be more than 25 character.',
             'email.required' => 'Email is required.',
             'email.unique:users,email' => 'This email has already registered.',
             'email.email' => 'Email is invalid',
