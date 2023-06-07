@@ -9,4 +9,7 @@ interface IUserRepository
     public function store(array $data): User;
 
     public function updateById(int $id, array $data);
+
+    public function deleteById(int $id): bool;
+
 }

@@ -55,6 +55,13 @@ class UserService implements IUserService
         }
     }
 
+    public function deleteAccount(array $data) {
+        $this->checkPasswordIsCorrect($data['password']);
+        if(!$this->repository->deleteById(auth()->user()->id)) {
+            throw new Exception('An error occured while updating biography.', 400);
+        }
+    }
+
     /**
      * Checks if password is correct
      */

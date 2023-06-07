@@ -36,6 +36,6 @@ Route::group(['prefix' => 'users'], function () {
         Route::post('change-email', [UserController::class, 'changeEmail']);
         Route::post('change-personel-informations', [UserController::class, 'changePersonalInformations']);
         Route::post('change-biography', [UserController::class, 'changeBiography']);
-        Route::post('delete', [UserController::class, 'delete']);
+        Route::post('delete', [UserController::class, 'deleteAccount']);
     });
 });

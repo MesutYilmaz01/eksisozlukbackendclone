@@ -5,7 +5,7 @@ namespace App\Http\Requests;
 use App\Rules\UnwantedAttribute;
 use Illuminate\Foundation\Http\FormRequest;
 
-class ChangePersonelInformationsRequest extends FormRequest
+class DeleteAccountRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -30,9 +30,9 @@ class ChangePersonelInformationsRequest extends FormRequest
             'email' => new UnwantedAttribute,
             'avatar' => new UnwantedAttribute,
             'biography' => new UnwantedAttribute,
-            'password' => new UnwantedAttribute,
-            "birthday" => 'before:today',
-            "gender" => 'in:1,2,3,4'
+            'password' => 'required|min:6|max:10',
+            "birthday" => new UnwantedAttribute,
+            "gender" => [new UnwantedAttribute]
         ];
     }
 }

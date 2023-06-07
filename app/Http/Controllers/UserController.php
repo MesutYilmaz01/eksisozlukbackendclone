@@ -6,6 +6,7 @@ use App\Http\Requests\ChangeBiographyRequest;
 use App\Http\Requests\ChangeEmailRequest;
 use App\Http\Requests\ChangePasswordRequest;
 use App\Http\Requests\ChangePersonelInformationsRequest;
+use App\Http\Requests\DeleteAccountRequest;
 use App\Http\Requests\RegisterRequest;
 use App\Http\Resources\User\UserResource;
 use App\Http\ServiceContracts\IUserService;
@@ -63,9 +64,14 @@ class UserController extends Controller
         }
     }
 
-    public function deleteAccount()
+    public function deleteAccount(DeleteAccountRequest $request)
     {
-
+        try{
+            $this->service->deleteAccount($request->only(['password']));
+            return response()->json(['message' => 'Account deleted successfully'], 201);
+        }catch(Exception $e){
+            return response()->json(['message' => $e->getMessage()], $e->getCode());
+        }
     }
 
     public function changeAvatar()
