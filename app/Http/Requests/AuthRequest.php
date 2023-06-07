@@ -36,8 +36,8 @@ class AuthRequest extends FormRequest
             'email.email' => 'Please type a valid email.',
             'email.exists:users,email' => 'There is not registered user with this email.',
             'password.required' => 'Password is required.',
-            'password.min' => 'Password should be minimum 6 character.',
-            'password.max' => 'Password should be maximum 10 character.'
+            'password.min' => 'Password must be minimum 6 character.',
+            'password.max' => 'Password must be maximum 10 character.'
         ];
     }
 }

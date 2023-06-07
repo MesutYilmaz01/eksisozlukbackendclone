@@ -3,7 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\AuthRequest;
-use App\Http\Resources\Auth\LoginResource;
+use App\Http\Resources\Auth\TokenResource;
+use App\Http\Resources\User\UserResource;
 use Illuminate\Http\Request;
 
 class AuthController extends Controller
@@ -16,7 +17,7 @@ class AuthController extends Controller
             return response()->json(['error' => 'Unauthorized'], 401);
         }
 
-        return (new LoginResource(['token' => $token]))->response()->setStatusCode(200);
+        return (new TokenResource(['token' => $token]))->response()->setStatusCode(200);
     }
 
     public function logout()
@@ -27,11 +28,11 @@ class AuthController extends Controller
 
     public function refresh()
     {
-        return (new LoginResource(['token' => auth()->refresh()]))->response()->setStatusCode(200);
+        return (new TokenResource(['token' => auth()->refresh()]))->response()->setStatusCode(200);
     }
 
     public function me()
     {
-        return response()->json(auth()->user());
+        return response()->json(new UserResource(auth()->user()));
     }
 }
