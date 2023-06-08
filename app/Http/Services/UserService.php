@@ -23,24 +23,24 @@ class UserService implements IUserService
 
     public function changePassword(array $data)
     {
-            $this->checkPasswordIsCorrect($data['old_password']);
+        $this->checkPasswordIsCorrect($data['old_password']);
 
-            $data['password'] = Hash::make($data['new_password']);
-            unset($data['old_password'], $data['new_password']);
+        $data['password'] = Hash::make($data['new_password']);
+        unset($data['old_password'], $data['new_password']);
 
-            if(!$this->repository->updateById(auth()->user()->id, $data)) {
-                throw new Exception('An error occured while updating password.', 400);
-            }
+        if(!$this->repository->updateById(auth()->user()->id, $data)) {
+            throw new Exception('An error occured while updating password.', 400);
+        }
     }
 
     public function changeEmail(array $data)
     {
-            $this->checkPasswordIsCorrect($data['password']);
-            unset($data['password']);
+        $this->checkPasswordIsCorrect($data['password']);
+        unset($data['password']);
 
-            if(!$this->repository->updateById(auth()->user()->id, $data)) {
-                throw new Exception('An error occured while updating email.', 400);
-            }
+        if(!$this->repository->updateById(auth()->user()->id, $data)) {
+            throw new Exception('An error occured while updating email.', 400);
+        }
     }
 
     public function changePersonalInformations(array $data) {
@@ -59,6 +59,17 @@ class UserService implements IUserService
         $this->checkPasswordIsCorrect($data['password']);
         if(!$this->repository->deleteById(auth()->user()->id)) {
             throw new Exception('An error occured while updating biography.', 400);
+        }
+    }
+
+    public function changeAvatar($data) {
+        $result = $data->store('public/images');
+        if(!$result) {
+            throw new Exception('An error occured while changing avatar.', 400);
+        }
+
+        if(!$this->repository->updateById(auth()->user()->id, ['avatar' => $result])) {
+            throw new Exception('An error occured while updating avatar.', 400);
         }
     }
 

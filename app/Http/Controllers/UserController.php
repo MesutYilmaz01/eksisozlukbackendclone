@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ChangeAvatarRequest;
 use App\Http\Requests\ChangeBiographyRequest;
 use App\Http\Requests\ChangeEmailRequest;
 use App\Http\Requests\ChangePasswordRequest;
@@ -74,8 +75,13 @@ class UserController extends Controller
         }
     }
 
-    public function changeAvatar()
+    public function changeAvatar(ChangeAvatarRequest $request)
     {
-
+        try{
+            $this->service->changeAvatar($request->file('image'));
+            return response()->json(['message' => 'Avatar changed successfully'], 201);
+        }catch(Exception $e){
+            return response()->json(['message' => $e->getMessage()], $e->getCode());
+        }
     }
 }
