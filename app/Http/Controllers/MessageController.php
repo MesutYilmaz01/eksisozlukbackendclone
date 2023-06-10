@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\DeleteHistoryRequest;
+use App\Http\Requests\DeleteMessagesRequest;
 use App\Http\Requests\GetMessagesRequest;
 use App\Http\Requests\SendMessageRequest;
 use App\Http\ServiceContracts\IMessageService;
@@ -16,10 +18,29 @@ class MessageController extends Controller
 
     public function sendMessage(SendMessageRequest $request)
     {
-        $this->messageService->sendMessage($request->only(['username', 'message']));
-
         try{
+            $this->messageService->sendMessage($request->only(['username', 'message']));
             return response()->json(['message' => 'Message sended successfully'], 201);
+        }catch(Exception $e){
+            return response()->json(['message' => $e->getMessage()], $e->getCode());
+        }
+    }
+
+    public function deleteMessages(DeleteMessagesRequest $request)
+    {
+        try{
+            $this->messageService->deleteMessagesById($request->only(["ids", "chat_id"]));
+            return response()->json(['message' => 'Message deleted successfully'], 200);
+        }catch(Exception $e){
+            return response()->json(['message' => $e->getMessage()], $e->getCode());
+        }
+    }
+
+    public function deleteHistory(DeleteHistoryRequest $request)
+    {
+        try{
+            $this->messageService->deleteHistory($request->only(["chat_id"]));
+            return response()->json(['message' => 'History deleted successfully'], 200);
         }catch(Exception $e){
             return response()->json(['message' => $e->getMessage()], $e->getCode());
         }

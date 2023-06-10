@@ -9,5 +9,7 @@ interface IMessageService
 {
     public function sendMessage(array $data): Message;
 
+    public function deleteMessagesById(array $data);
+
     //public function get(int $userOne, int $userTwo): ?Collection;
 }

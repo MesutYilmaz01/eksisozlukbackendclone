@@ -32,5 +32,10 @@ class ChatRepository implements IChatRepository
                 'second_user_id' => $data['second_user_id']
             ]);
     }
+
+    public function getById(int $id): ?Chat
+    {
+        return Chat::query()->where('id', $id)->first();
+    }
 }
 

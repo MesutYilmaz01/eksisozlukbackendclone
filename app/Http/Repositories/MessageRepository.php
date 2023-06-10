@@ -21,4 +21,35 @@ class MessageRepository implements IMessageRepository
                 ->get();
     }
 
+    public function getById(int $id): ?Message
+    {
+        return Message::query()->where('id', $id)->first();
+    }
+
+    public function updateByIds(array $ids, $authenticatedUserId)
+    {
+        foreach(Message::query()->whereIn('id', $ids)->cursor() as $message) {
+            if($message->sender_id == $authenticatedUserId) {
+                $message->delete_for_sender = true;
+                $message->save();
+            }else if($message->receiver_id == $authenticatedUserId) {
+                $message->delete_for_receiver = true;
+                $message->save();
+            }
+        }
+    }
+
+    public function updateByChatId(int $chatId, $authenticatedUserId)
+    {
+        foreach(Message::query()->where('chat_id', $chatId)->cursor() as $message) {
+            if($message->sender_id == $authenticatedUserId) {
+                $message->delete_for_sender = true;
+                $message->save();
+            }else if($message->receiver_id == $authenticatedUserId) {
+                $message->delete_for_receiver = true;
+                $message->save();
+            }
+        }
+    }
+
 }

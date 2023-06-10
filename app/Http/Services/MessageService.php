@@ -37,6 +37,32 @@ class MessageService implements IMessageService
 
         return $result;
     }
+
+    public function deleteMessagesById(array $data)
+    {
+        foreach($data["ids"] as $id) {
+            $message = $this->messageRepository->getById($id);
+            if(!$message || 
+                ($message->sender_id != auth()->user()->id && $message->receiver_id != auth()->user()->id) || 
+                $message->chat_id != $data["chat_id"])
+            {
+                throw new Exception('Unauthorized', 400);
+            }
+        }
+        
+        $this->messageRepository->updateByIds($data["ids"], auth()->user()->id);
+    }
+
+    public function deleteHistory(array $data)
+    {
+        $chat = $this->chatRepository->getById($data["chat_id"]);
+        
+        if($chat->first_user_id != auth()->user()->id && $chat->second_user_id != auth()->user()->id) {
+            throw new Exception('Unauthorized', 400);
+        }
+
+        $this->messageRepository->updateByChatId($data["chat_id"], auth()->user()->id);
+    }
     
     //public function getMessages(): ?Collection
     //{
