@@ -21,4 +21,14 @@ class UserRepository implements IUserRepository
     {
         return User::query()->where(['id' => $id])->delete();
     }
+
+    public function getById(int $id): ?User
+    {
+        return User::query()->where(['id' => $id])->first();
+    }
+
+    public function getByUsername(string $username): ?User
+    {
+        return User::query()->where(['username' => $username])->first();
+    }
 }

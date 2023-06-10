@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\MessageController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -39,4 +40,9 @@ Route::group(['prefix' => 'users'], function () {
         Route::post('delete', [UserController::class, 'deleteAccount']);
         Route::post('change-avatar', [UserController::class, 'changeAvatar']);
     });
+});
+
+Route::group(['prefix' => 'messages', 'middleware' => ['auth:api']], function () {
+    Route::post('send/', [MessageController::class, 'sendMessage']);
+    Route::get('', [MessageController::class, 'getMessages']);
 });

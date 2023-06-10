@@ -18,7 +18,13 @@ class UserService implements IUserService
     public function store(array $data): User 
     {
         $data['password'] = Hash::make($data['password']);
-        return $this->repository->store($data);
+        $user = $this->repository->store($data);
+        
+        if(!$user) {
+            throw new Exception('An error occured while creating user.', 400);
+        }
+
+        return $user;
     }
 
     public function changePassword(array $data)

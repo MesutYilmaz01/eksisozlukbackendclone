@@ -22,7 +22,11 @@ class UserController extends Controller
 
     public function register(RegisterRequest $request)
     {
-        return new UserResource($this->service->store($request->only(['username', 'email', 'password'])));
+        try{
+            return new UserResource($this->service->store($request->only(['username', 'email', 'password'])));
+        }catch(Exception $e){
+            return response()->json(['message' => $e->getMessage()], $e->getCode());
+        }
     }
 
     public function changePassword(ChangePasswordRequest $request)

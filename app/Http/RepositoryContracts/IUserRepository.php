@@ -12,4 +12,8 @@ interface IUserRepository
 
     public function deleteById(int $id): bool;
 
+    public function getById(int $id): ?User;
+
+    public function getByUsername(string $username): ?User;
+
 }
