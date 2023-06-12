@@ -16,4 +16,7 @@ interface IMessageRepository
     public function updateByIds(array $ids, int $authenticatedUserId);
 
     public function updateByChatId(int $chatId, int $authenticatedUserId);
+
+    public function getByChatIdAndUserId(int $chatId, int $authenticatedUserId);
+
 }

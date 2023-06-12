@@ -64,8 +64,17 @@ class MessageService implements IMessageService
         $this->messageRepository->updateByChatId($data["chat_id"], auth()->user()->id);
     }
     
-    //public function getMessages(): ?Collection
-    //{
+    public function getMessages(int $chatId)
+    {
+        $chat = $this->chatRepository->getById($chatId);
+        
+        if(!$chat) {
+            throw new Exception('There is not any chat with this id', 400);
+        }
+        if($chat->first_user_id != auth()->user()->id && $chat->second_user_id != auth()->user()->id) {
+            throw new Exception('Unauthorized', 400);
+        }
 
-    //}
+        return $this->messageRepository->getByChatIdAndUserId($chatId, auth()->user()->id);
+    }
 }

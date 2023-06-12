@@ -26,7 +26,7 @@ class MessageRepository implements IMessageRepository
         return Message::query()->where('id', $id)->first();
     }
 
-    public function updateByIds(array $ids, $authenticatedUserId)
+    public function updateByIds(array $ids, int $authenticatedUserId)
     {
         foreach(Message::query()->whereIn('id', $ids)->cursor() as $message) {
             if($message->sender_id == $authenticatedUserId) {
@@ -39,7 +39,7 @@ class MessageRepository implements IMessageRepository
         }
     }
 
-    public function updateByChatId(int $chatId, $authenticatedUserId)
+    public function updateByChatId(int $chatId, int $authenticatedUserId)
     {
         foreach(Message::query()->where('chat_id', $chatId)->cursor() as $message) {
             if($message->sender_id == $authenticatedUserId) {
@@ -50,6 +50,20 @@ class MessageRepository implements IMessageRepository
                 $message->save();
             }
         }
+    }
+
+    public function getByChatIdAndUserId(int $chatId, int $authenticatedUserId)
+    {
+        $messages = collect();
+        
+        foreach(Message::query()->where('chat_id', $chatId)->with('sender')->cursor() as $message) {
+            if(($message->sender_id == $authenticatedUserId) && $message->delete_for_sender == false) {
+                $messages->push($message);
+            }else if(($message->receiver_id == $authenticatedUserId) && $message->delete_for_receiver == false) {
+                $messages->push($message);
+            }
+        }
+        return $messages;
     }
 
 }

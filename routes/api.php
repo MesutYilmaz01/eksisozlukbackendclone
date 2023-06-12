@@ -46,5 +46,5 @@ Route::group(['prefix' => 'messages', 'middleware' => ['auth:api']], function ()
     Route::post('send/', [MessageController::class, 'sendMessage']);
     Route::post('delete-messages/', [MessageController::class, 'deleteMessages']);
     Route::post('delete-history/', [MessageController::class, 'deleteHistory']);
-    Route::get('', [MessageController::class, 'getMessages']);
+    Route::get('{chatId}', [MessageController::class, 'getMessages']);
 });

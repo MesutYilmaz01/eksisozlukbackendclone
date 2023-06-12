@@ -6,6 +6,7 @@ use App\Http\Requests\DeleteHistoryRequest;
 use App\Http\Requests\DeleteMessagesRequest;
 use App\Http\Requests\GetMessagesRequest;
 use App\Http\Requests\SendMessageRequest;
+use App\Http\Resources\MessageResource;
 use App\Http\ServiceContracts\IMessageService;
 use Exception;
 
@@ -46,13 +47,13 @@ class MessageController extends Controller
         }
     }
 
-    //public function getMessages(GetMessagesRequest $request)
-    //{
-    //    try{
-    //        $this->service->changePassword($request->only(['old_password', 'new_password']));
-    //        return response()->json(['message' => 'Password changed successfully'], 201);
-    //    }catch(Exception $e){
-    //        return response()->json(['message' => $e->getMessage()], $e->getCode());
-    //    }
-    //}
+    public function getMessages(int $chatId)
+    {
+        try{
+            $messages = $this->messageService->getMessages($chatId);
+            return response()->json(['data' => MessageResource::collection($messages)], 200);
+        }catch(Exception $e){
+            return response()->json(['message' => $e->getMessage()], $e->getCode());
+        }
+    }
 }
