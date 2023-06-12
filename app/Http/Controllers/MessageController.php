@@ -8,6 +8,7 @@ use App\Http\Requests\GetMessagesRequest;
 use App\Http\Requests\SendMessageRequest;
 use App\Http\Resources\MessageResource;
 use App\Http\ServiceContracts\IMessageService;
+use App\Models\Message;
 use Exception;
 
 class MessageController extends Controller
@@ -19,6 +20,7 @@ class MessageController extends Controller
 
     public function sendMessage(SendMessageRequest $request)
     {
+        $this->authorize('sendMessage', [Message::class, $request->only('username')]);
         try{
             $this->messageService->sendMessage($request->only(['username', 'message']));
             return response()->json(['message' => 'Message sended successfully'], 201);

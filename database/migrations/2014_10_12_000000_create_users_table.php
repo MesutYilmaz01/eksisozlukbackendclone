@@ -25,6 +25,7 @@ return new class extends Migration
             $table->string('biography')->nullable();
             $table->dateTime('birthday')->nullable();
             $table->enum('gender', [1, 2, 3, 4])->default(4);
+            $table->enum('message_permit_type', [1, 2, 3, 4])->default(4);
             $table->rememberToken();
             $table->timestamps();
             $table->softDeletes();
