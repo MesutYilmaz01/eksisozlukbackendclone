@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\EntryController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\MessageController;
 use Illuminate\Http\Request;
@@ -47,4 +48,8 @@ Route::group(['prefix' => 'messages', 'middleware' => ['auth:api']], function ()
     Route::post('delete-messages/', [MessageController::class, 'deleteMessages']);
     Route::post('delete-history/', [MessageController::class, 'deleteHistory']);
     Route::get('{chatId}', [MessageController::class, 'getMessages']);
+});
+
+Route::group(['prefix' => 'entries', 'middleware' => ['auth:api']], function () {
+    Route::post('/', [EntryController::class, 'enterEntry']);
 });
