@@ -17,6 +17,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('header_id')->references('id')->on('headers')->constrained()->cascadeOnDelete();
             $table->foreignId('user_id')->references('id')->on('users')->constrained()->cascadeOnDelete();
+            $table->enum('user_type', [1, 2, 3, 4]);
             $table->string('message');
             $table->timestamps();
             $table->softDeletes();

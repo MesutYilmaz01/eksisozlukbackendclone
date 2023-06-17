@@ -2,6 +2,7 @@
 
 namespace App\Http\Services;
 
+use App\Http\Enums\UserTypeEnums;
 use App\Http\RepositoryContracts\IEntryRepository;
 use App\Http\RepositoryContracts\IHeaderRepository;
 use App\Http\ServiceContracts\IEntryService;
@@ -21,7 +22,11 @@ class EntryService implements IEntryService
         try {
             DB::beginTransaction();
             if(!isset($data['header_id'])) {
-            
+                
+                if(auth()->user()->user_type === UserTypeEnums::NEWBIE) {
+                    throw new Exception('Newbies cant create an entry.', 400);
+                }
+
                 if($this->headerRepository->getByHeader($data['header'])) {
                     throw new Exception('There is already a header with this.', 400);
                 }
@@ -43,7 +48,8 @@ class EntryService implements IEntryService
             $storeData = [
                 'header_id' => $data['header_id'],
                 'user_id' => auth()->user()->id,
-                'message' =>  $data['message']
+                'message' =>  $data['message'],
+                'user_type' => auth()->user()->user_type
             ];
 
             if(!$this->entryRepository->store($storeData)) {

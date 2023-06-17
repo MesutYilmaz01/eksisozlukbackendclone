@@ -18,6 +18,7 @@ class Entry extends Model
     protected $fillable = [
         'header_id',
         'user_id',
+        'user_type',
         'message'
     ];
 }
