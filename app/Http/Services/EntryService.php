@@ -6,6 +6,7 @@ use App\Http\Enums\UserTypeEnums;
 use App\Http\RepositoryContracts\IEntryRepository;
 use App\Http\RepositoryContracts\IHeaderRepository;
 use App\Http\ServiceContracts\IEntryService;
+use App\Models\Entry;
 use Exception;
 use Illuminate\Support\Facades\DB;
 
@@ -60,6 +61,53 @@ class EntryService implements IEntryService
         } catch(Exception $e) {
             DB::rollBack();
             throw $e;
+        }
+    }
+
+    public function deleteEntry(int $id)
+    {
+        
+        $entry = $this->getEntryById($id);
+
+        $this->checkIsOwner($entry);
+
+        $result = $this->entryRepository->deleteById($id);
+
+        if(!$result) {
+            throw new Exception('An error occured while deleting Entry', 400);
+        }
+        
+    }
+
+    public function updateEntry(int $id, array $data)
+    {
+        $entry = $this->getEntryById($id);
+
+        $this->checkIsOwner($entry);
+
+        $result = $this->entryRepository->updateById($id, $data);
+
+        if(!$result) {
+            throw new Exception('An error occured while updating Entry', 400);
+        }
+    }
+
+    private function getEntryById(int $id): ?Entry
+    {
+        $entry = $this->entryRepository->getById($id);
+
+        if(!$entry) {
+            throw new Exception('There is not any id with this id', 400);
+        }
+
+        return $entry;
+    }
+
+    private function checkIsOwner(Entry $entry)
+    {
+        if($entry->user_id != auth()->user()->id)
+        {
+            throw new Exception('You are not owner of this entry', 400);
         }
     }
 }

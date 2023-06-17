@@ -52,4 +52,7 @@ Route::group(['prefix' => 'messages', 'middleware' => ['auth:api']], function ()
 
 Route::group(['prefix' => 'entries', 'middleware' => ['auth:api']], function () {
     Route::post('/', [EntryController::class, 'enterEntry']);
+    Route::put('/{id}', [EntryController::class, 'updateEntry']);
+    Route::delete('/{id}', [EntryController::class, 'deleteEntry']);
+
 });

@@ -11,5 +11,20 @@ class EntryRepository implements IEntryRepository
     {
         return Entry::create($data);
     }
+
+    public function deleteById(int $id)
+    {
+        return Entry::where('id', $id)->delete();
+    }
+
+    public function updateById(int $id, array $data)
+    {
+        return Entry::where('id', $id)->update($data);
+    }
+
+    public function getById(int $id): ?Entry 
+    {
+        return Entry::where('id', $id)->first();
+    }
 }
 
