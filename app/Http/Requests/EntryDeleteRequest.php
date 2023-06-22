@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class EntryUpdateRequest extends FormRequest
+class EntryDeleteRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -13,7 +13,7 @@ class EntryUpdateRequest extends FormRequest
      */
     public function authorize()
     {
-        return $this->user()->can('update', $this->route('entry'));
+        return $this->user()->can('delete', $this->route('entry'));
     }
 
     /**
@@ -24,7 +24,7 @@ class EntryUpdateRequest extends FormRequest
     public function rules()
     {
         return [
-            'message' => 'required|string'
+            //
         ];
     }
 }

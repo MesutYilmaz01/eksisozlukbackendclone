@@ -9,6 +9,7 @@ use App\Http\ServiceContracts\IEntryService;
 use App\Models\Entry;
 use Exception;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class EntryService implements IEntryService
 {
@@ -59,6 +60,7 @@ class EntryService implements IEntryService
             DB::commit();
 
         } catch(Exception $e) {
+            Log::alert($e->getMessage());
             DB::rollBack();
             throw $e;
         }
@@ -66,48 +68,15 @@ class EntryService implements IEntryService
 
     public function deleteEntry(int $id)
     {
-        
-        $entry = $this->getEntryById($id);
-
-        $this->checkIsOwner($entry);
-
-        $result = $this->entryRepository->deleteById($id);
-
-        if(!$result) {
+        if(!$this->entryRepository->deleteById($id)) {
             throw new Exception('An error occured while deleting Entry', 400);
         }
-        
     }
 
     public function updateEntry(int $id, array $data)
     {
-        $entry = $this->getEntryById($id);
-
-        $this->checkIsOwner($entry);
-
-        $result = $this->entryRepository->updateById($id, $data);
-
-        if(!$result) {
+        if(!$this->entryRepository->updateById($id, $data)) {
             throw new Exception('An error occured while updating Entry', 400);
-        }
-    }
-
-    private function getEntryById(int $id): ?Entry
-    {
-        $entry = $this->entryRepository->getById($id);
-
-        if(!$entry) {
-            throw new Exception('There is not any id with this id', 400);
-        }
-
-        return $entry;
-    }
-
-    private function checkIsOwner(Entry $entry)
-    {
-        if($entry->user_id != auth()->user()->id)
-        {
-            throw new Exception('You are not owner of this entry', 400);
         }
     }
 }

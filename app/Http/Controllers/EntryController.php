@@ -6,6 +6,7 @@ use App\Http\Requests\EntryDeleteRequest;
 use App\Http\Requests\EntryStoreRequest;
 use App\Http\Requests\EntryUpdateRequest;
 use App\Http\ServiceContracts\IEntryService;
+use App\Models\Entry;
 use Exception;
 
 class EntryController extends Controller
@@ -26,20 +27,20 @@ class EntryController extends Controller
         }
     }
 
-    public function deleteEntry(int $id)
+    public function deleteEntry(Entry $entry, EntryDeleteRequest $request)
     {
         try{
-            $this->entryService->deleteEntry($id);
+            $this->entryService->deleteEntry($entry->id);
             return response()->json(['message' => 'Entry deleted successfully'], 201);
         }catch(Exception $e){
             return response()->json(['message' => $e->getMessage()], $e->getCode());
         }
     }
 
-    public function updateEntry(int $id, EntryUpdateRequest $request)
+    public function updateEntry(Entry $entry, EntryUpdateRequest $request)
     {
         try{
-            $this->entryService->updateEntry($id, $request->only(['message']));
+            $this->entryService->updateEntry($entry->id, $request->only(['message']));
             return response()->json(['message' => 'Entry updated successfully'], 201);
         }catch(Exception $e){
             return response()->json(['message' => $e->getMessage()], $e->getCode());
