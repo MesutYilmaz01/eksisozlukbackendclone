@@ -20,7 +20,11 @@ use App\Http\Services\EntryService;
 use App\Http\Services\HeaderService;
 use App\Http\Services\MessageService;
 use App\Http\Services\UserService;
+use App\Models\Chat;
+use App\Models\Entry;
 use App\Models\Header;
+use App\Models\Message;
+use App\Models\User;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -43,15 +47,24 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->app->bind(IUserService::class, UserService::class);
-        $this->app->bind(IUserRepository::class, UserRepository::class);
         $this->app->bind(IMessageService::class, MessageService::class);
-        $this->app->bind(IMessageRepository::class, MessageRepository::class);
-        $this->app->bind(IChatRepository::class, ChatRepository::class);
         $this->app->bind(IEntryService::class, EntryService::class);
-        $this->app->bind(IEntryRepository::class, EntryRepository::class);
+        $this->app->bind(IHeaderService::class, HeaderService::class);
+
+        $this->app->bind(IUserRepository::class, function(){
+            return new UserRepository(new User());
+        });
+        $this->app->bind(IMessageRepository::class, function(){
+            return new MessageRepository(new Message());
+        });
+        $this->app->bind(IChatRepository::class, function(){
+            return new ChatRepository(new Chat());
+        });
+        $this->app->bind(IEntryRepository::class, function(){
+            return new EntryRepository(new Entry());
+        });
         $this->app->bind(IHeaderRepository::class, function(){
             return new HeaderRepository(new Header());
         });
-        $this->app->bind(IHeaderService::class, HeaderService::class);
     }
 }

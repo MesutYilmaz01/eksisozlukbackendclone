@@ -5,9 +5,9 @@ namespace App\Http\Repositories;
 use App\Http\RepositoryContracts\IChatRepository;
 use App\Models\Chat;
 
-class ChatRepository implements IChatRepository
+class ChatRepository extends BaseRepository implements IChatRepository
 {
-    public function firstOrCreate(array $data): Chat
+    public function getFirstorCreate(array $data): Chat
     {
         $isExists = Chat::query()
             ->where(
@@ -35,7 +35,7 @@ class ChatRepository implements IChatRepository
 
     public function getById(int $id): ?Chat
     {
-        return Chat::query()->where('id', $id)->first();
+        return $this->find($id);
     }
 }
 

@@ -66,5 +66,4 @@ Route::group(['prefix' => 'entries'], function () {
 Route::group(['prefix' => 'headers'], function () {
     Route::get('/', [HeaderController::class, 'getAll']);
     Route::get('/{header}', [HeaderController::class, 'show']);
-
 });
