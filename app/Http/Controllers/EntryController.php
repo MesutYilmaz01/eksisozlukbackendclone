@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\EntryDeleteRequest;
 use App\Http\Requests\EntryStoreRequest;
 use App\Http\Requests\EntryUpdateRequest;
+use App\Http\Resources\Entry\EntryResource;
 use App\Http\ServiceContracts\IEntryService;
 use App\Models\Entry;
 use Exception;
@@ -45,5 +46,10 @@ class EntryController extends Controller
         }catch(Exception $e){
             return response()->json(['message' => $e->getMessage()], $e->getCode());
         }
+    }
+
+    public function show(Entry $entry)
+    {
+        return new EntryResource($entry);
     }
 }

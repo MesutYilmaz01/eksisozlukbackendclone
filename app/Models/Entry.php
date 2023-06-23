@@ -27,4 +27,9 @@ class Entry extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    public function header(): BelongsTo
+    {
+        return $this->belongsTo(Header::class);
+    }
 }

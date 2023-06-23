@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\EntryController;
+use App\Http\Controllers\HeaderController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\MessageController;
 use Illuminate\Http\Request;
@@ -52,7 +53,18 @@ Route::group(['prefix' => 'messages', 'middleware' => ['auth:api']], function ()
 
 Route::group(['prefix' => 'entries', 'middleware' => ['auth:api']], function () {
     Route::post('/', [EntryController::class, 'enterEntry']);
+    Route::get('/{entry}', [EntryController::class, 'show']);
     Route::put('/{entry}', [EntryController::class, 'updateEntry']);
     Route::delete('/{entry}', [EntryController::class, 'deleteEntry']);
+
+});
+
+Route::group(['prefix' => 'entries'], function () {
+    Route::get('/{entry}', [EntryController::class, 'show']);
+});
+
+Route::group(['prefix' => 'headers'], function () {
+    Route::get('/', [HeaderController::class, 'getAll']);
+    Route::get('/{header}', [HeaderController::class, 'show']);
 
 });

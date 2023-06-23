@@ -19,4 +19,9 @@ class Header extends Model
         'header',
         'created_by',
     ];
+
+    public function entries()
+    {
+        return $this->hasMany(Entry::class);
+    }
 }

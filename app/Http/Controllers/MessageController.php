@@ -4,9 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\DeleteHistoryRequest;
 use App\Http\Requests\DeleteMessagesRequest;
-use App\Http\Requests\GetMessagesRequest;
 use App\Http\Requests\SendMessageRequest;
-use App\Http\Resources\MessageResource;
+use App\Http\Resources\Message\MessageResource;
 use App\Http\ServiceContracts\IMessageService;
 use App\Models\Message;
 use Exception;
