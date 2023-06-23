@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources\Entry;
 
+use App\Http\Resources\Header\HeaderResource;
 use App\Http\Resources\User\UserResource;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -16,9 +17,13 @@ class EntryResource extends JsonResource
     public function toArray($request)
     {
         return [
-            'header' => $this->header->header,
+            'header' => $this->whenLoaded('header', function() {
+                return new HeaderResource($this->header);
+            }),
             'message' => $this->message,
-            'user' => new UserResource($this->user)
+            'user' => $this->whenLoaded('user', function() {
+                return new UserResource($this->user);
+            }),
         ];
     }
 }

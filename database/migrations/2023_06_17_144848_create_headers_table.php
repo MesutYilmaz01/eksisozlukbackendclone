@@ -16,6 +16,7 @@ return new class extends Migration
         Schema::create('headers', function (Blueprint $table) {
             $table->id();
             $table->string('header');
+            $table->string('slug');
             $table->foreignId('created_by')->references('id')->on('users')->constrained()->cascadeOnDelete();
             $table->timestamps();
             $table->softDeletes();

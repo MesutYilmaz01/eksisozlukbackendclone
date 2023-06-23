@@ -16,8 +16,10 @@ class HeaderFactory extends Factory
      */
     public function definition()
     {
+        $sentence = strtolower(fake()->sentence(6));
         return [
-            'header' => fake()->sentence(6)
+            'header' => $sentence,
+            'slug' => str_replace(' ', '-', $sentence)
         ];
     }
 }

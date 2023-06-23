@@ -20,6 +20,7 @@ use App\Http\Services\EntryService;
 use App\Http\Services\HeaderService;
 use App\Http\Services\MessageService;
 use App\Http\Services\UserService;
+use App\Models\Header;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -48,7 +49,9 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(IChatRepository::class, ChatRepository::class);
         $this->app->bind(IEntryService::class, EntryService::class);
         $this->app->bind(IEntryRepository::class, EntryRepository::class);
-        $this->app->bind(IHeaderRepository::class, HeaderRepository::class);
+        $this->app->bind(IHeaderRepository::class, function(){
+            return new HeaderRepository(new Header());
+        });
         $this->app->bind(IHeaderService::class, HeaderService::class);
     }
 }

@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\HeaderListRequest;
 use App\Http\Resources\Header\HeaderListResource;
+use App\Http\Resources\Header\HeaderResource;
 use App\Http\ServiceContracts\IHeaderService;
-use Illuminate\Http\Request;
 
 class HeaderController extends Controller
 {
@@ -13,8 +14,13 @@ class HeaderController extends Controller
         $this->headerService = $headerService;
     }
 
-    public function getAll(Request $request)
+    public function getAll(HeaderListRequest $request)
     {
         return HeaderListResource::collection($this->headerService->getAll($request->only('with')));
+    }
+
+    public function show(string $header)
+    {   
+        return new HeaderResource($this->headerService->show($header));
     }
 }

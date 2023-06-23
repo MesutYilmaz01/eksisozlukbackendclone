@@ -12,8 +12,13 @@ class HeaderService implements IHeaderService
         $this->headerRepository = $headerRepository;
     }
 
-    public function getAll(array $with)
+    public function getAll(array $data)
     {
-        return $this->headerRepository->getAll($with);
+        return $this->headerRepository->getAll(isset($data['with']) ? explode(',', $data['with']) : []);
+    }
+
+    public function show(string $header)
+    {
+        return $this->headerRepository->show($header);
     }
 }
