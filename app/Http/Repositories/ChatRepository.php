@@ -7,7 +7,7 @@ use App\Models\Chat;
 
 class ChatRepository extends BaseRepository implements IChatRepository
 {
-    public function getFirstorCreate(array $data): Chat
+    public function firstOrCreate($data): Chat
     {
         $isExists = Chat::query()
             ->where(
