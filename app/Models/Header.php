@@ -17,6 +17,7 @@ class Header extends Model
      */
     protected $fillable = [
         'header',
+        'slug',
         'created_by',
     ];
 

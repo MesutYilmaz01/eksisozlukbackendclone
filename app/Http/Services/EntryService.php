@@ -35,6 +35,7 @@ class EntryService implements IEntryService
 
                 $headerData = [
                     'header' => $data['header'],
+                    'slug' => str_replace(' ', '-', strtolower($data['header'])),
                     'created_by' => auth()->user()->id
                 ];
 
