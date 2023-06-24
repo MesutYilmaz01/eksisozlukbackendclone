@@ -9,7 +9,7 @@ class ChatRepository extends BaseRepository implements IChatRepository
 {
     public function firstOrCreate($data): Chat
     {
-        $isExists = Chat::query()
+        $isExists = $this->getModel()->query()
             ->where(
                 [
                     ['first_user_id' ,'=', $data['first_user_id']], 
@@ -26,11 +26,10 @@ class ChatRepository extends BaseRepository implements IChatRepository
             return $isExists;
         }
 
-        return Chat::create(
-            [
-                'first_user_id' => $data['first_user_id'], 
-                'second_user_id' => $data['second_user_id']
-            ]);
+        return parent::create([
+            'first_user_id' => $data['first_user_id'], 
+            'second_user_id' => $data['second_user_id']
+        ]);
     }
 
     public function getById(int $id): ?Chat

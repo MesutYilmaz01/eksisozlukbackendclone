@@ -16,7 +16,7 @@ class HeaderController extends Controller
 
     public function getAll(HeaderListRequest $request)
     {
-        return HeaderListResource::collection($this->headerService->getAll($request->only('with')));
+        return HeaderListResource::collection($this->headerService->getAll($request->all()));
     }
 
     public function show(string $header)

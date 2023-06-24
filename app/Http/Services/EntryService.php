@@ -28,8 +28,8 @@ class EntryService implements IEntryService
                 if(auth()->user()->user_type === UserTypeEnums::NEWBIE) {
                     throw new Exception('Newbies cant create an entry.', 400);
                 }
-
-                if($this->headerRepository->getByHeader($data['header'])) {
+                
+                if($this->headerRepository->findByAttributes(['header' => $data['header']])) {
                     throw new Exception('There is already a header with this.', 400);
                 }
 
@@ -39,7 +39,7 @@ class EntryService implements IEntryService
                     'created_by' => auth()->user()->id
                 ];
 
-                $header = $this->headerRepository->store($headerData);
+                $header = $this->headerRepository->create($headerData);
 
                 $data['header_id'] = $header->id;
 

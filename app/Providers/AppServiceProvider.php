@@ -50,21 +50,10 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(IMessageService::class, MessageService::class);
         $this->app->bind(IEntryService::class, EntryService::class);
         $this->app->bind(IHeaderService::class, HeaderService::class);
-
-        $this->app->bind(IUserRepository::class, function(){
-            return new UserRepository(new User());
-        });
-        $this->app->bind(IMessageRepository::class, function(){
-            return new MessageRepository(new Message());
-        });
-        $this->app->bind(IChatRepository::class, function(){
-            return new ChatRepository(new Chat());
-        });
-        $this->app->bind(IEntryRepository::class, function(){
-            return new EntryRepository(new Entry());
-        });
-        $this->app->bind(IHeaderRepository::class, function(){
-            return new HeaderRepository(new Header());
-        });
+        $this->app->bind(IUserRepository::class, UserRepository::class);
+        $this->app->bind(IMessageRepository::class, MessageRepository::class);
+        $this->app->bind(IChatRepository::class, ChatRepository::class);
+        $this->app->bind(IEntryRepository::class, EntryRepository::class);
+        $this->app->bind(IHeaderRepository::class, HeaderRepository::class);
     }
 }
