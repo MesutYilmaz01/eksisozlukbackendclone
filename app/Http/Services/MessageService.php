@@ -22,7 +22,7 @@ class MessageService implements IMessageService
     public function sendMessage(array $data): Message 
     {                  
         $user = $this->userRepository->getByUsername($data['username']);
-        $chat = $this->chatRepository->firstOrCreate(['first_user_id' => auth()->user()->id , 'second_user_id' => $user->id]);
+        $chat = $this->chatRepository->getFirstOrCreate(['first_user_id' => auth()->user()->id , 'second_user_id' => $user->id]);
         
         unset($data["username"]);
         $data["sender_id"] = auth()->user()->id;

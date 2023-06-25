@@ -5,11 +5,11 @@ namespace App\Http\Repositories;
 use App\Http\RepositoryContracts\IChatRepository;
 use App\Models\Chat;
 
-class ChatRepository extends BaseRepository implements IChatRepository
+class ChatRepository extends BaseEloquentRepository implements IChatRepository
 {
-    public function firstOrCreate($data): Chat
+    public function getFirstOrCreate(array $data): Chat
     {
-        $isExists = $this->getModel()->query()
+        $isExists = $this->model->query()
             ->where(
                 [
                     ['first_user_id' ,'=', $data['first_user_id']], 
