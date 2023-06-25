@@ -55,7 +55,7 @@ class EntryService implements IEntryService
                 'user_type' => auth()->user()->user_type
             ];
 
-            if(!$this->entryRepository->store($storeData)) {
+            if(!$this->entryRepository->create($storeData)) {
                 throw new Exception('An error ocured while adding entry.', 400);
             }
             DB::commit();
