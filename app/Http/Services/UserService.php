@@ -10,15 +10,15 @@ use Illuminate\Support\Facades\Hash;
 
 class UserService implements IUserService
 {
-    public function __construct(IUserRepository $repository)
+    public function __construct(IUserRepository $userRepository)
     {
-        $this->repository = $repository;
+        $this->userRepository = $userRepository;
     }
 
     public function store(array $data): User 
     {
         $data['password'] = Hash::make($data['password']);
-        $user = $this->repository->store($data);
+        $user = $this->userRepository->create($data);
         
         if(!$user) {
             throw new Exception('An error occured while creating user.', 400);
@@ -34,7 +34,7 @@ class UserService implements IUserService
         $data['password'] = Hash::make($data['new_password']);
         unset($data['old_password'], $data['new_password']);
 
-        if(!$this->repository->updateById(auth()->user()->id, $data)) {
+        if(!$this->userRepository->updateById(auth()->user()->id, $data)) {
             throw new Exception('An error occured while updating password.', 400);
         }
     }
@@ -44,26 +44,26 @@ class UserService implements IUserService
         $this->checkPasswordIsCorrect($data['password']);
         unset($data['password']);
 
-        if(!$this->repository->updateById(auth()->user()->id, $data)) {
+        if(!$this->userRepository->updateById(auth()->user()->id, $data)) {
             throw new Exception('An error occured while updating email.', 400);
         }
     }
 
     public function changePersonalInformations(array $data) {
-        if(!$this->repository->updateById(auth()->user()->id, $data)) {
+        if(!$this->userRepository->updateById(auth()->user()->id, $data)) {
             throw new Exception('An error occured while updating personal informations.', 400);
         }
     }
 
     public function changeBiography(array $data) {
-        if(!$this->repository->updateById(auth()->user()->id, $data)) {
+        if(!$this->userRepository->updateById(auth()->user()->id, $data)) {
             throw new Exception('An error occured while updating biography.', 400);
         }
     }
 
     public function deleteAccount(array $data) {
         $this->checkPasswordIsCorrect($data['password']);
-        if(!$this->repository->deleteById(auth()->user()->id)) {
+        if(!$this->userRepository->deleteById(auth()->user()->id)) {
             throw new Exception('An error occured while updating biography.', 400);
         }
     }
@@ -74,7 +74,7 @@ class UserService implements IUserService
             throw new Exception('An error occured while changing avatar.', 400);
         }
 
-        if(!$this->repository->updateById(auth()->user()->id, ['avatar' => $result])) {
+        if(!$this->userRepository->updateById(auth()->user()->id, ['avatar' => $result])) {
             throw new Exception('An error occured while updating avatar.', 400);
         }
     }
