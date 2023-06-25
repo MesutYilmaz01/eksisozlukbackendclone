@@ -3,10 +3,13 @@
 namespace App\Http\Repositories;
 
 use App\Http\RepositoryContracts\IMessageRepository;
+use App\Models\Message;
 use Illuminate\Database\Eloquent\Collection;
 
 class MessageRepository extends BaseEloquentRepository implements IMessageRepository
 {
+    protected $model = Message::class;
+    
     public function get(int $userOne, int $userTwo): ?Collection
     {
         return $this->model->query()

@@ -7,6 +7,8 @@ use App\Models\Entry;
 
 class EntryRepository extends BaseEloquentRepository implements IEntryRepository
 {
+    protected $model = Entry::class;
+
     public function deleteById(int $id)
     {
         return $this->model->query()->where('id', $id)->delete();
