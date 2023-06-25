@@ -29,7 +29,7 @@ class MessageService implements IMessageService
         $data["receiver_id"] = $user->id;
         $data["chat_id"] = $chat->id;
         
-        $result = $this->messageRepository->store($data);
+        $result = $this->messageRepository->create($data);
         if(!$result)
         {
             throw new Exception('An error occured while sending message.', 400);
