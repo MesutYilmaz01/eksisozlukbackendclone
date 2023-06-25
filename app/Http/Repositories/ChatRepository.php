@@ -14,13 +14,13 @@ class ChatRepository extends BaseEloquentRepository implements IChatRepository
         $isExists = $this->model->query()
             ->where(
                 [
-                    ['first_user_id' ,'=', $data['first_user_id']], 
-                    ['second_user_id' ,'=', $data['second_user_id']]
+                    'first_user_id' => $data['first_user_id'],
+                    'second_user_id' => $data['second_user_id']
                 ])
             ->orWhere(
                 [
-                    ['first_user_id' ,'=', $data['second_user_id']], 
-                    ['second_user_id' ,'=', $data['first_user_id']]
+                    'first_user_id' => $data['second_user_id'],
+                    'second_user_id' => $data['first_user_id']
                 ])
             ->first();
 
