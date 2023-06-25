@@ -31,10 +31,5 @@ class ChatRepository extends BaseRepository implements IChatRepository
             'second_user_id' => $data['second_user_id']
         ]);
     }
-
-    public function getById(int $id): ?Chat
-    {
-        return $this->find($id);
-    }
 }
 
