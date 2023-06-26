@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\EntryController;
+use App\Http\Controllers\FollowController;
 use App\Http\Controllers\HeaderController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\MessageController;
@@ -66,4 +67,9 @@ Route::group(['prefix' => 'entries'], function () {
 Route::group(['prefix' => 'headers'], function () {
     Route::get('/', [HeaderController::class, 'getAll']);
     Route::get('/{header}', [HeaderController::class, 'show']);
+});
+
+Route::group(['prefix' => 'follows', 'middleware' => ['auth:api']], function () {
+    Route::post('/', [FollowController::class, 'follow']);
+    Route::post('/unfollow', [FollowController::class, 'unfollow']);
 });
