@@ -72,4 +72,6 @@ Route::group(['prefix' => 'headers'], function () {
 Route::group(['prefix' => 'follows', 'middleware' => ['auth:api']], function () {
     Route::post('/{user}', [FollowController::class, 'follow']);
     Route::delete('/{user}', [FollowController::class, 'unfollow']);
+    Route::get('/followers/{user}', [FollowController::class, 'followers']);
+    Route::get('/followed/{user}', [FollowController::class, 'followed']);
 });
