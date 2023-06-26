@@ -21,6 +21,9 @@ class UserResource extends JsonResource
             'avatar' => $this->avatar,
             'bioghraphy' => $this->biography,
             'created_at' => $this->created_at,
+            'entry_count' => $this->whenLoaded('entries', function() {
+                return $this->entries->count();
+            }),
             'followers_count' => $this->whenLoaded('followers', function() {
                 return $this->followers->count();
             }),
