@@ -31,7 +31,7 @@ class EntryController extends Controller
     public function deleteEntry(Entry $entry, EntryDeleteRequest $request)
     {
         try{
-            $this->entryService->deleteEntry($entry->id);
+            $this->entryService->deleteEntry($entry);
             return response()->json(['message' => 'Entry deleted successfully'], 201);
         }catch(Exception $e){
             return response()->json(['message' => $e->getMessage()], $e->getCode());

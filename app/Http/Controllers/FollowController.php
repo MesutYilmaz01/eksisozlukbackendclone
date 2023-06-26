@@ -34,7 +34,6 @@ class FollowController extends Controller
             $this->followService->unfollow($user);
             return response(['message' => "Unfollowing {$user->username} is succesfull."]);
         }catch(Exception $e) {
-            Log::alert('FollowController unfollow method', ['message' => $e->getMessage(), 'code' => $e->getCode()]);
             return response(['message' => $e->getMessage()], $e->getCode());
         }
     }
