@@ -36,6 +36,7 @@ Route::group(['prefix' => 'auth'], function () {
 Route::group(['prefix' => 'users'], function () {
     Route::post('register', [UserController::class, 'register']);
     Route::middleware('auth:api')->group( function () {
+        Route::get('/{user}', [UserController::class, 'show']);
         Route::post('change-password', [UserController::class, 'changePassword']);
         Route::post('change-email', [UserController::class, 'changeEmail']);
         Route::post('change-personel-informations', [UserController::class, 'changePersonalInformations']);

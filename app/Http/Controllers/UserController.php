@@ -11,19 +11,20 @@ use App\Http\Requests\DeleteAccountRequest;
 use App\Http\Requests\RegisterRequest;
 use App\Http\Resources\User\UserResource;
 use App\Http\ServiceContracts\IUserService;
+use App\Models\User;
 use Exception;
 
 class UserController extends Controller
 {
-    public function __construct(IUserService $service)
+    public function __construct(IUserService $userService)
     {
-        $this->service = $service;
+        $this->userService = $userService;
     }
 
     public function register(RegisterRequest $request)
     {
         try{
-            return new UserResource($this->service->store($request->only(['username', 'email', 'password'])));
+            return new UserResource($this->userService->store($request->only(['username', 'email', 'password'])));
         }catch(Exception $e){
             return response()->json(['message' => $e->getMessage()], $e->getCode());
         }
@@ -32,7 +33,7 @@ class UserController extends Controller
     public function changePassword(ChangePasswordRequest $request)
     {
         try{
-            $this->service->changePassword($request->only(['old_password', 'new_password']));
+            $this->userService->changePassword($request->only(['old_password', 'new_password']));
             return response()->json(['message' => 'Password changed successfully'], 201);
         }catch(Exception $e){
             return response()->json(['message' => $e->getMessage()], $e->getCode());
@@ -42,7 +43,7 @@ class UserController extends Controller
     public function changeEmail(ChangeEmailRequest $request)
     {
         try{
-            $this->service->changeEmail($request->only(['email', 'password']));
+            $this->userService->changeEmail($request->only(['email', 'password']));
             return response()->json(['message' => 'Email changed successfully'], 201);
         }catch(Exception $e){
             return response()->json(['message' => $e->getMessage()], $e->getCode());
@@ -52,7 +53,7 @@ class UserController extends Controller
     public function changePersonalInformations(ChangePersonelInformationsRequest $request)
     {
         try{
-            $this->service->changePersonalInformations($request->only(['birthday', 'gender']));
+            $this->userService->changePersonalInformations($request->only(['birthday', 'gender']));
             return response()->json(['message' => 'Informations changed successfully'], 201);
         }catch(Exception $e){
             return response()->json(['message' => $e->getMessage()], $e->getCode());
@@ -62,7 +63,7 @@ class UserController extends Controller
     public function changeBiography(ChangeBiographyRequest $request)
     {
         try{
-            $this->service->changeBiography($request->only(['biography']));
+            $this->userService->changeBiography($request->only(['biography']));
             return response()->json(['message' => 'Biography changed successfully'], 201);
         }catch(Exception $e){
             return response()->json(['message' => $e->getMessage()], $e->getCode());
@@ -72,7 +73,7 @@ class UserController extends Controller
     public function deleteAccount(DeleteAccountRequest $request)
     {
         try{
-            $this->service->deleteAccount($request->only(['password']));
+            $this->userService->deleteAccount($request->only(['password']));
             return response()->json(['message' => 'Account deleted successfully'], 201);
         }catch(Exception $e){
             return response()->json(['message' => $e->getMessage()], $e->getCode());
@@ -82,10 +83,15 @@ class UserController extends Controller
     public function changeAvatar(ChangeAvatarRequest $request)
     {
         try{
-            $this->service->changeAvatar($request->file('image'));
+            $this->userService->changeAvatar($request->file('image'));
             return response()->json(['message' => 'Avatar changed successfully'], 201);
         }catch(Exception $e){
             return response()->json(['message' => $e->getMessage()], $e->getCode());
         }
+    }
+
+    public function show(User $user)
+    {
+        return new UserResource($user->load(['followers', 'followed', 'entries', 'entries.header']));
     }
 }
