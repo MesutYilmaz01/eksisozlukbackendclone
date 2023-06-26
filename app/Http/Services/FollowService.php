@@ -29,7 +29,24 @@ class FollowService implements IFollowService
             auth()->user()->followed()->attach($user->id);
 
         }catch (Exception $e) {
-            Log::alert(['Follow Service follow method', ['message' => $e->getMessage(), 'code' => $e->getCode()]]);
+            throw $e;
+        }
+    }
+
+    public function unfollow(User $user)
+    {
+        try {
+            if($user->id == request()->user()->id) {
+                throw new Exception('An user can not unfollow itself.', 400);
+            }
+    
+            if(!auth()->user()->isUserFollowed($user->id)) {
+                throw new Exception('You are already not following this user', 400);
+            }
+
+            auth()->user()->followed()->detach($user->id);
+
+        }catch (Exception $e) {
             throw $e;
         }
     }

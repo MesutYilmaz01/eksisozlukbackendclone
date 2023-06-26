@@ -16,7 +16,7 @@ class FollowController extends Controller
         $this->followService = $followService;
     }
 
-    public function follow(FollowRequest $request, User $user)
+    public function follow(User $user)
     {
         try {
             $this->followService->follow($user);
@@ -27,8 +27,14 @@ class FollowController extends Controller
         }
     }
 
-    public function unfollow()
+    public function unfollow(User $user)
     {
-
+        try {
+            $this->followService->unfollow($user);
+            return response(['message' => "Unfollowing {$user->username} is succesfull."]);
+        }catch(Exception $e) {
+            Log::alert('FollowController unfollow method', ['message' => $e->getMessage(), 'code' => $e->getCode()]);
+            return response(['message' => $e->getMessage()], $e->getCode());
+        }
     }
 }
