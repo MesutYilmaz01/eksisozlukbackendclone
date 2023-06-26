@@ -47,6 +47,7 @@ class FollowService implements IFollowService
             auth()->user()->followed()->detach($user->id);
 
         }catch (Exception $e) {
+            Log::alert('FollowService unfollow method', ['message' => $e->getMessage(), 'code' => $e->getCode()]);
             throw $e;
         }
     }

@@ -22,7 +22,7 @@ class EntryService implements IEntryService
     public function sendMessage(array $data)
     {
         try {
-            DB::beginTransaction();
+            $this->entryRepository->beginTransaction();
             if(!isset($data['header_id'])) {
                 
                 if(auth()->user()->user_type === UserTypeEnums::NEWBIE) {
@@ -58,25 +58,25 @@ class EntryService implements IEntryService
             if(!$this->entryRepository->create($storeData)) {
                 throw new Exception('An error ocured while adding entry.', 400);
             }
-            DB::commit();
+            $this->entryRepository->commit();
 
         } catch(Exception $e) {
-            Log::alert($e->getMessage());
-            DB::rollBack();
+            $this->entryRepository->rollback();
+            Log::alert('EntryService sendMessage method', ['message' => $e->getMessage(), 'code' => $e->getCode()]);
             throw $e;
         }
     }
 
-    public function deleteEntry(int $id)
+    public function deleteEntry(Entry $entry)
     {
-        if(!$this->entryRepository->deleteById($id)) {
+        if(!$this->entryRepository->delete($entry)) {
             throw new Exception('An error occured while deleting Entry', 400);
         }
     }
 
-    public function updateEntry(int $id, array $data)
+    public function updateEntry(Entry $entry, array $data)
     {
-        if(!$this->entryRepository->updateById($id, $data)) {
+        if(!$this->entryRepository->update($entry, $data)) {
             throw new Exception('An error occured while updating Entry', 400);
         }
     }
