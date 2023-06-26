@@ -4,6 +4,7 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -74,12 +75,17 @@ class User extends Authenticatable implements JWTSubject
         return [];
     }
 
-    public function followers()
+    public function entries(): HasMany
+    {
+        return $this->hasMany(Entry::class);
+    }
+
+    public function followers(): BelongsToMany
     {
         return $this->belongsToMany(User::class, 'user_follow_user', 'followed_user_id', 'follower_user_id');
     }
 
-    public function followed()
+    public function followed(): BelongsToMany
     {
         return $this->belongsToMany(User::class, 'user_follow_user', 'follower_user_id', 'followed_user_id');
     }
