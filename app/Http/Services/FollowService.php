@@ -50,4 +50,13 @@ class FollowService implements IFollowService
             throw $e;
         }
     }
+
+    public function followers(User $user)
+    {
+        try {
+           return $user->followers;
+        }catch (Exception $e) {
+            throw $e;
+        }
+    }
 }
