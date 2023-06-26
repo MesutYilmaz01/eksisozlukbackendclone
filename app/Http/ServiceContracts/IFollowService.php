@@ -11,4 +11,6 @@ interface IFollowService
     public function unfollow(User $user);
 
     public function followers(User $user);
+
+    public function followed(User $user);
 }

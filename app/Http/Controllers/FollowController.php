@@ -48,4 +48,14 @@ class FollowController extends Controller
             return response(['message' => $e->getMessage()], $e->getCode());
         }
     }
+
+    public function followed(User $user)
+    {
+        try {
+            return UserResource::collection($this->followService->followed($user));
+        }catch(Exception $e) {
+            Log::alert('FollowController followed method', ['message' => $e->getMessage(), 'code' => $e->getCode()]);
+            return response(['message' => $e->getMessage()], $e->getCode());
+        }
+    }
 }
