@@ -70,6 +70,6 @@ Route::group(['prefix' => 'headers'], function () {
 });
 
 Route::group(['prefix' => 'follows', 'middleware' => ['auth:api']], function () {
-    Route::post('/', [FollowController::class, 'follow']);
-    Route::post('/unfollow', [FollowController::class, 'unfollow']);
+    Route::post('/{user}', [FollowController::class, 'follow']);
+    Route::delete('/{user}', [FollowController::class, 'unfollow']);
 });

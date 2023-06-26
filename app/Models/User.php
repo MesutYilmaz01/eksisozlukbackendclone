@@ -75,6 +75,20 @@ class User extends Authenticatable implements JWTSubject
         return [];
     }
 
+
+    //To bind model with speacial column, override this method!
+    /**
+     * Retrieve the model for a bound value.
+     *
+     * @param  mixed  $value
+     * @param  string|null  $field
+     * @return \Illuminate\Database\Eloquent\Model|null
+     */
+    public function resolveRouteBinding($value, $field = null)
+    {
+        return $this->where('username', $value)->firstOrFail();
+    }
+
     public function entries(): HasMany
     {
         return $this->hasMany(Entry::class);
@@ -88,5 +102,10 @@ class User extends Authenticatable implements JWTSubject
     public function followed(): BelongsToMany
     {
         return $this->belongsToMany(User::class, 'user_follow_user', 'follower_user_id', 'followed_user_id');
+    }
+
+    public function isUserFollowed(int $userId)
+    {
+        return $this->belongsToMany(User::class, 'user_follow_user', 'follower_user_id', 'followed_user_id')->where('followed_user_id', $userId)->exists();
     }
 }

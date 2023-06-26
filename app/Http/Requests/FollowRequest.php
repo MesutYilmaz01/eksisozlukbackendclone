@@ -24,7 +24,7 @@ class FollowRequest extends FormRequest
     public function rules()
     {
         return [
-            'username' => 'required|exists:users,username'
+            
         ];
     }
 }
