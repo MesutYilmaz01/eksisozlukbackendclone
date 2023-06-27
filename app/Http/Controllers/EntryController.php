@@ -50,6 +50,6 @@ class EntryController extends Controller
 
     public function show(Entry $entry)
     {
-        return new EntryResource($entry);
+        return new EntryResource($entry->load(['likes']));
     }
 }
