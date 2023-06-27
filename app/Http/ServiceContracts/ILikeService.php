@@ -7,4 +7,6 @@ use App\Models\Entry;
 interface ILikeService
 {
     public function like(Entry $entry);
+
+    public function dislike(Entry $entry);
 }

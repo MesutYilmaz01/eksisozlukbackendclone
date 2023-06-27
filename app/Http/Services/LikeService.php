@@ -29,4 +29,19 @@ class LikeService implements ILikeService
             throw $e;
         }
     }
+
+    public function dislike(Entry $entry)
+    {
+        try {
+            if(!$entry->isLikeExists(auth()->user()->id)) {
+                throw new Exception('This entry is not liked before', 400);
+            }
+
+            $entry->likes()->detach(auth()->user()->id);
+
+        } catch (Exception $e) {
+            Log::alert('LikeService ublike method', ['message' => $e->getMessage(), 'code' => $e->getCode()]);
+            throw $e;
+        }
+    }
 }
