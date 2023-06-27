@@ -15,11 +15,13 @@ use App\Http\RepositoryContracts\IUserRepository;
 use App\Http\ServiceContracts\IEntryService;
 use App\Http\ServiceContracts\IFollowService;
 use App\Http\ServiceContracts\IHeaderService;
+use App\Http\ServiceContracts\ILikeService;
 use App\Http\ServiceContracts\IMessageService;
 use App\Http\ServiceContracts\IUserService;
 use App\Http\Services\EntryService;
 use App\Http\Services\FollowService;
 use App\Http\Services\HeaderService;
+use App\Http\Services\LikeService;
 use App\Http\Services\MessageService;
 use App\Http\Services\UserService;
 use App\Models\Chat;
@@ -58,5 +60,6 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(IEntryRepository::class, EntryRepository::class);
         $this->app->bind(IHeaderRepository::class, HeaderRepository::class);
         $this->app->bind(IFollowService::class, FollowService::class);
+        $this->app->bind(ILikeService::class, LikeService::class);
     }
 }

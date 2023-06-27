@@ -92,6 +92,6 @@ class UserController extends Controller
 
     public function show(User $user)
     {
-        return new UserResource($user->load(['followers', 'followed', 'entries', 'entries.header']));
+        return new UserResource($user->load(['followers', 'followed', 'entries', 'entries.header', 'entries.likes']));
     }
 }

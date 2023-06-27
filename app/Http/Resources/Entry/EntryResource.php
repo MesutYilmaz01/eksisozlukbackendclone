@@ -24,6 +24,9 @@ class EntryResource extends JsonResource
             'user' => $this->whenLoaded('user', function() {
                 return new UserResource($this->user);
             }),
+            'likes_count' => $this->whenLoaded('likes', function() {
+                return $this->likes->count();
+            }),
         ];
     }
 }
