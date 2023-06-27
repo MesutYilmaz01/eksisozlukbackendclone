@@ -17,6 +17,16 @@ class LikeService implements ILikeService
 
     public function like(Entry $entry)
     {
-        
+        try {
+            if($entry->isLikeExists(auth()->user()->id)) {
+                throw new Exception('This entry already liked by you.', 400);
+            }
+
+            $entry->likes()->attach(auth()->user()->id);
+
+        } catch (Exception $e) {
+            Log::alert('LikeService like method', ['message' => $e->getMessage(), 'code' => $e->getCode()]);
+            throw $e;
+        }
     }
 }
