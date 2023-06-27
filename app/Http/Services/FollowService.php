@@ -29,6 +29,7 @@ class FollowService implements IFollowService
             auth()->user()->followed()->attach($user->id);
 
         }catch (Exception $e) {
+            Log::alert('FollowService follow method', ['message' => $e->getMessage(), 'code' => $e->getCode()]);
             throw $e;
         }
     }
@@ -57,6 +58,7 @@ class FollowService implements IFollowService
         try {
            return $user->followers;
         }catch (Exception $e) {
+            Log::alert('FollowService followers method', ['message' => $e->getMessage(), 'code' => $e->getCode()]);
             throw $e;
         }
     }
@@ -66,6 +68,7 @@ class FollowService implements IFollowService
         try {
            return $user->followed;
         }catch (Exception $e) {
+            Log::alert('FollowService followed method', ['message' => $e->getMessage(), 'code' => $e->getCode()]);
             throw $e;
         }
     }

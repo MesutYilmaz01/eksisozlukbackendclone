@@ -23,7 +23,6 @@ class FollowController extends Controller
             $this->followService->follow($user);
             return response(['message' => "Following {$user->username} is succesfull."]);
         }catch(Exception $e) {
-            Log::alert('FollowController follow method', ['message' => $e->getMessage(), 'code' => $e->getCode()]);
             return response(['message' => $e->getMessage()], $e->getCode());
         }
     }
@@ -43,7 +42,6 @@ class FollowController extends Controller
         try {
             return UserResource::collection($this->followService->followers($user));
         }catch(Exception $e) {
-            Log::alert('FollowController followers method', ['message' => $e->getMessage(), 'code' => $e->getCode()]);
             return response(['message' => $e->getMessage()], $e->getCode());
         }
     }
@@ -53,7 +51,6 @@ class FollowController extends Controller
         try {
             return UserResource::collection($this->followService->followed($user));
         }catch(Exception $e) {
-            Log::alert('FollowController followed method', ['message' => $e->getMessage(), 'code' => $e->getCode()]);
             return response(['message' => $e->getMessage()], $e->getCode());
         }
     }
