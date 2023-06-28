@@ -21,6 +21,7 @@ class DatabaseSeeder extends Seeder
             HeaderSeeder::class,
             EntrySeeder::class,
             FollowSeeder::class,
+            LikeSeeder::class
         ]);        
     }
 }
