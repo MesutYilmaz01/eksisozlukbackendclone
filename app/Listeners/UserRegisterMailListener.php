@@ -2,6 +2,7 @@
 
 namespace App\Listeners;
 
+use App\Notifications\UserRegisterMailNotification;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 
@@ -25,6 +26,6 @@ class UserRegisterMailListener
      */
     public function handle($event)
     {
-        $user = $event->user;
+        $event->user->notify(new UserRegisterMailNotification($event->user));
     }
 }
