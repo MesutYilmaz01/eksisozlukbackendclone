@@ -35,10 +35,3 @@ jobs:
         DB_CONNECTION: sqlite
         DB_DATABASE: database/database.sqlite
       run: vendor/bin/phpunit
-    - name: Push and Build Docker Image
-      uses: mr-smithes-excellent/docker-build-push@v4
-      with:
-        image: redbull93/php-mysql
-        registery: docker.io
-        username: ${{ secrets.DOCKER_USERNAME }}
-        password: ${{ secrets.DOCKER_PASSWORD }}
